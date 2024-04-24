@@ -34,7 +34,7 @@ Saving Results
 save_summary(model, file_name, data, independent_vars): Saves the summary statistics and regression output to a file.
 Double Lasso Regression
 DoubleLasso(data, independent_vars, filename): Implements a two-step Lasso regression for variable selection and estimation.
-
+Mergedreplicationdata.csv is a csv file which combines the .dta file used in Nathan Nunn's replication with more current data.
 Dependencies:
 Python 3.x: The primary programming language used for analysis.
 Libraries: pandas, numpy, statsmodels, sklearn, matplotlib, seaborn.
