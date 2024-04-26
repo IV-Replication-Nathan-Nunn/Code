@@ -31,7 +31,10 @@ def doubleLasso(df, target_column, independent_vars):
     # Printing selected features and their coefficients
     print(f"Selected Features: {independent_vars[selected_features]}")
     print(f"Coefficients: {lasso2.coef_}")
-
+       # Create a dictionary that maps each selected feature to its coefficient
+    coef_dict = dict(zip(independent_vars[selected_features], lasso2.coef_))
+    return coef_dict
+    return lasso2.coef_
     # Optionally, using statsmodels for detailed statistics
     X_train_sm = sm.add_constant(X_train_selected)  # Adding a constant for statsmodels
     model_sm = sm.OLS(y_train, X_train_sm).fit()
@@ -43,53 +46,34 @@ def doubleLasso(df, target_column, independent_vars):
     y_pred_train = lasso2.predict(X_train_selected)
     y_pred_test = lasso2.predict(X_test_selected)
 
-    print(f"Training R^2: {r2_score(y_train, y_pred_train)}")
-    print(f"Test R^2: {r2_score(y_test, y_pred_test)}")
-    print(f"Training MSE: {mean_squared_error(y_train, y_pred_train)}")
-    print(f"Test MSE: {mean_squared_error(y_test, y_pred_test)}")
-    
-data = 'C:/vscode2/ECON470/IV_replication_CooperMuery-main/mergedReplicationData2.csv'
-#Target: 2021 GDP
-target_column = 'YR2021'
+
+import pandas as pd
+from sklearn.metrics import r2_score, mean_squared_error
+
+# Define your independent variables
 independent_vars = np.array(['ln_export_area', 'longitude', 'rain_min', 'humid_max', 'low_temp', 'ln_coastline_area', 
                             'island_dum', 'islam', 'legor_fr', 'region_n', 'ln_avg_gold_pop', 'ln_avg_oil_pop', 
                             'ln_avg_all_diamonds_pop'] + [f'colony{i}' for i in range(8)])
-df = pd.read_csv(data, usecols=['YR2021', 'ln_export_area', 'longitude', 'rain_min', 'humid_max', 'low_temp', 'ln_coastline_area', 
-                            'island_dum', 'islam', 'legor_fr', 'region_n', 'ln_avg_gold_pop', 'ln_avg_oil_pop', 
-                            'ln_avg_all_diamonds_pop'] + [f'colony{i}' for i in range(8)])
-doubleLasso(df,target_column,independent_vars)
 
-#Target: 2002 GDP
-target_column = 'YR2002'
-df = pd.read_csv(data, usecols=['YR2002', 'ln_export_area', 'longitude', 'rain_min', 'humid_max', 'low_temp', 'ln_coastline_area', 
-                            'island_dum', 'islam', 'legor_fr', 'region_n', 'ln_avg_gold_pop', 'ln_avg_oil_pop', 
-                            'ln_avg_all_diamonds_pop'] + [f'colony{i}' for i in range(8)])
-doubleLasso(df,target_column,independent_vars)
+# Define your data file
+data = 'mergedReplicationData2.csv'
 
-#Target: 2003 GDP
-target_column = 'YR2003'
-df = pd.read_csv(data, usecols=['YR2003', 'ln_export_area', 'longitude', 'rain_min', 'humid_max', 'low_temp', 'ln_coastline_area', 
-                            'island_dum', 'islam', 'legor_fr', 'region_n', 'ln_avg_gold_pop', 'ln_avg_oil_pop', 
-                            'ln_avg_all_diamonds_pop'] + [f'colony{i}' for i in range(8)])
-doubleLasso(df,target_column,independent_vars)
+# Initialize an empty list to store the coefficients
+coefficients = []
+# Loop over the years
+for year in range(2000, 2021):
+    # Define the target column
+    target_column = f'YR{year}'
 
-#Target: 2004 GDP
-target_column = 'YR2004'
-df = pd.read_csv(data, usecols=['YR2004', 'ln_export_area', 'longitude', 'rain_min', 'humid_max', 'low_temp', 'ln_coastline_area', 
-                            'island_dum', 'islam', 'legor_fr', 'region_n', 'ln_avg_gold_pop', 'ln_avg_oil_pop', 
-                            'ln_avg_all_diamonds_pop'] + [f'colony{i}' for i in range(8)])
-doubleLasso(df,target_column,independent_vars)
+    # Load the data
+    df = pd.read_csv(data, usecols=[target_column, 'ln_export_area', 'longitude', 'rain_min', 'humid_max', 'low_temp', 'ln_coastline_area', 
+                                'island_dum', 'islam', 'legor_fr', 'region_n', 'ln_avg_gold_pop', 'ln_avg_oil_pop', 
+                                'ln_avg_all_diamonds_pop'] + [f'colony{i}' for i in range(8)])
+    coef = doubleLasso(df, target_column, independent_vars)
+    coefficients.append(coef)
 
-#Target: 2005 GDP
-target_column = 'YR2005'
-df = pd.read_csv(data, usecols=['YR2005', 'ln_export_area', 'longitude', 'rain_min', 'humid_max', 'low_temp', 'ln_coastline_area', 
-                            'island_dum', 'islam', 'legor_fr', 'region_n', 'ln_avg_gold_pop', 'ln_avg_oil_pop', 
-                            'ln_avg_all_diamonds_pop'] + [f'colony{i}' for i in range(8)])
-doubleLasso(df,target_column,independent_vars)
+# Convert the list of coefficients to a DataFrame
+coefficients_df = pd.DataFrame(coefficients, columns=independent_vars, index=range(2000, 2021))
 
-#Target: 2006 GDP
-target_column = 'YR2006'
-df = pd.read_csv(data, usecols=['YR2006', 'ln_export_area', 'longitude', 'rain_min', 'humid_max', 'low_temp', 'ln_coastline_area', 
-                            'island_dum', 'islam', 'legor_fr', 'region_n', 'ln_avg_gold_pop', 'ln_avg_oil_pop', 
-                            'ln_avg_all_diamonds_pop'] + [f'colony{i}' for i in range(8)])
-doubleLasso(df,target_column,independent_vars)
+# Save the DataFrame to a CSV file
+coefficients_df.to_csv('coefficients.csv')
