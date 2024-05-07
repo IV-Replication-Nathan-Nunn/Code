@@ -70,4 +70,7 @@ Review Results: Analyze the output for causal inferences and insights into the i
 Our poster file in GitHub is: Poster_Template__Copy_ (3).pdf
 Our Poster Presentation can be found at the link: https://www.overleaf.com/project/6601d8c87d5f713d73df0f2d 
 
-Our Google Colab Code can be found at the link: 
+Our Google Colab Code is as follows:
+The file 'FINALIVNUNN.ipynb' holds our IV replication, the link to the file is: https://colab.research.google.com/github/ECON-470-Data-Sci-Econ-Social-Issues/IV_Group_Final_Project/blob/main/FINALIVNUNN.ipynb 
+The file 'DOUBLELASSOFINAL.ipynb' holds our double lasso analysis, the link to the file is: https://colab.research.google.com/github/ECON-470-Data-Sci-Econ-SocialIssues/IV_Group_Final_Project/blob/main/DOUBLELASSOFINAL.ipynb 
+
