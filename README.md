@@ -65,3 +65,8 @@ Load the Data: Use pandas to load the dataset into your analysis environment.
 Run the IV Analysis: Execute the IV analysis script, which performs an Instrumental varaible Analysis replicating Nunn's findings.
 Run the Double Lasso Analysis: Execute the double lasso script which uses a double lasso to select variables and diminish the coefficients of non-selected variables. It then graphs the comparison of these results from 1990 to 2021.
 Review Results: Analyze the output for causal inferences and insights into the impact of the slave trade on economic performance.
+
+
+Our poster file in GitHub is: Poster_Template__Copy_ (3).pdf
+Our Poster Presentation can be found at the link: https://www.overleaf.com/project/6601d8c87d5f713d73df0f2d 
+
